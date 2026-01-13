@@ -1,4 +1,4 @@
-// background.js - V16.2 MeridIAn Intelligence Engine
+// background.js - V18.5 MeridIAn Intelligence Engine
 const MODEL = "gemini-2.0-flash-exp";
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -12,34 +12,34 @@ async function runInsightLogic(profile) {
     const { apiKey, icp } = await chrome.storage.sync.get(['apiKey', 'icp']);
     if (!apiKey) return { error: "No Key" };
 
-    const systemPrompt = `
-    ROL: Analista de Inteligencia de Negocios MeridIAn.
-    ESTRATEGIA DEL BDR (PROMPT MAESTRO): "${icp.promptTemplate}"
-    TARGET CARGOS: ${icp.titles.join(', ')}
+    const prompt = `
+    ROL: Analista Estratégico MeridIAn.
+    PROMPT MAESTRO BDR: "${icp.promptTemplate}"
+    NUESTRA PV: "${icp.valueProp}"
 
-    VOLCADO DE TEXTO DEL PERFIL: "${profile.fullDump}"
+    VOLCADO PERFIL: "${profile.fullDump}"
 
-    TAREA: Analiza con profundidad para un BDR senior.
-    1. MATCH SCORE: Calcula de 0 a 100 basado estrictamente en el PROMPT MAESTRO.
-    2. DNA PROFESIONAL: Estilo de liderazgo y enfoque estratégico.
-    3. DOLORES ESTRATÉGICOS: 3 dolores críticos deducidos de su sector y cargo.
-    4. FOCO Y ACTIVIDAD: Frecuencia de interacción y temas de su contenido.
-    5. ÁNGULO DE ENTRADA: La mejor forma de iniciar la conversación.
+    TAREA:
+    1. DNA PROFESIONAL: Identifica estilo de liderazgo y enfoque estratégico.
+    2. DOLORES ESTRATÉGICOS: Deduce 3 dolores críticos basados en su sector y la PV.
+    3. FOCO Y ACTIVIDAD: Frecuencia de interacción y temas que trata.
+    4. MATCH SCORE (0-100): Compatibilidad con la estrategia del BDR.
+    5. ÁNGULO DE ENTRADA: Gancho de apertura cruzando su perfil con nuestra PV.
 
     OUTPUT JSON ESTRICTO:
     { 
       "score": number, 
-      "dna": "string",
-      "pains": [{"icon": "alert|trending|target", "text": "string"}],
+      "dna": "string", 
+      "pains": [{"text": "string"}], 
       "activity": {"recency": "string", "context": "string"},
-      "opportunity": "string"
+      "opportunity": "string" 
     }`;
 
     try {
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${apiKey}`, {
             method: 'POST',
             body: JSON.stringify({ 
-                contents: [{ parts: [{ text: systemPrompt }] }], 
+                contents: [{ parts: [{ text: prompt }] }], 
                 generationConfig: { response_mime_type: "application/json", temperature: 0.1 } 
             })
         });

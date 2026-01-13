@@ -1,4 +1,4 @@
-/* widget.css - V16.2 MeridIAn Pro Branding */
+/* widget.css - V18.5 MeridIAn Insight Restore */
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
 
 #meridian-root {
@@ -6,9 +6,9 @@
     --m-card: #1e293b;
     --m-accent: #6366f1;
     --m-border: rgba(255, 255, 255, 0.08);
-    --m-neon: #10b981;
+    --m-text: #f8fafc;
     all: initial;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
     position: fixed;
     z-index: 2147483647;
 }
@@ -17,58 +17,62 @@
     position: fixed; top: 20px; right: 20px; width: 420px; 
     height: calc(100vh - 40px); background: var(--m-bg);
     border-radius: 28px; border: 1px solid var(--m-border);
-    backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-    display: flex; flex-direction: column; color: #fff;
-    transform: translateX(120%); transition: 0.6s cubic-bezier(0.2, 1, 0.2, 1);
+    backdrop-filter: blur(40px); display: flex; flex-direction: column; 
+    color: var(--m-text); transform: translateX(120%); 
+    transition: 0.6s cubic-bezier(0.2, 1, 0.2, 1);
     box-shadow: 0 30px 60px rgba(0,0,0,0.5); overflow: hidden;
 }
 #m-panel.active { transform: translateX(0); }
 
-.m-app-header {
-    padding: 24px; display: flex; justify-content: space-between; align-items: center;
-    border-bottom: 1px solid var(--m-border);
-}
+.m-app-header { padding: 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--m-border); flex-shrink: 0; }
 .m-logo { font-weight: 800; font-size: 13px; letter-spacing: 2px; color: var(--m-accent); text-transform: uppercase; }
 
-.m-icon-btn {
-    background: transparent !important; border: none !important;
-    padding: 8px !important; cursor: pointer !important;
-    border-radius: 8px !important; display: flex !important;
-    align-items: center !important; justify-content: center !important;
-    color: #94a3b8 !important;
+/* Scroll Flexible */
+.m-body-scroll { 
+    flex: 1; 
+    overflow-y: auto !important; 
+    padding: 0 24px 24px;
+    display: flex;
+    flex-direction: column;
 }
-.m-icon-btn:hover { background: rgba(255,255,255,0.05) !important; color: white !important; }
+.m-body-scroll::-webkit-scrollbar { width: 4px; }
+.m-body-scroll::-webkit-scrollbar-thumb { background: var(--m-accent); border-radius: 10px; }
 
-/* Tarjeta de Score Destacada */
-.m-score-card {
-    background: var(--m-card); border: 1px solid var(--m-border);
-    border-radius: 22px; padding: 24px; margin: 24px;
+/* Estilo de Bloques de Insights */
+.m-insight-card {
+    background: var(--m-card);
+    border: 1px solid var(--m-border);
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 12px;
 }
-.m-score-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
-.m-score-title { font-size: 10px; font-weight: 800; opacity: 0.5; letter-spacing: 1.5px; }
-.m-score-big { font-size: 38px; font-weight: 800; color: white; }
+.m-card-title {
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 1px;
+}
+.m-card-title svg { width: 14px; height: 14px; flex-shrink: 0; }
 
-.m-progress-bar { width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; }
-.m-progress-fill { height: 100%; background: linear-gradient(90deg, #6366f1, #10b981); transition: width 1.2s ease; }
+.m-insight-text { font-size: 13px; line-height: 1.5; color: #e2e8f0; margin: 0; }
+.m-highlight { border: 1px solid rgba(99, 102, 241, 0.4); background: rgba(99, 102, 241, 0.08); }
 
-.m-scroll { padding: 0 24px 24px; overflow-y: auto; flex: 1; scrollbar-width: none; }
-.m-scroll::-webkit-scrollbar { display: none; }
+/* Inputs y Botones */
+.m-input-premium { 
+    width: 100% !important; background: rgba(0,0,0,0.4) !important; 
+    border: 1px solid var(--m-border) !important; border-radius: 14px !important; 
+    padding: 12px !important; color: white !important; 
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 13px !important; box-sizing: border-box !important; margin-bottom: 12px !important;
+}
 
-/* Bloques de Insights */
-.m-insight-block { background: var(--m-card); border: 1px solid var(--m-border); border-radius: 18px; padding: 18px; margin-bottom: 12px; }
-.m-block-title { font-size: 9px; font-weight: 800; text-transform: uppercase; color: #94a3b8; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; letter-spacing: 1px; }
-.m-block-title svg { width: 14px; height: 14px; flex-shrink: 0; }
+.m-score-val { font-size: 38px; font-weight: 800; }
+.m-btn-run { width: 100% !important; padding: 18px !important; border-radius: 16px !important; background: #6d28d9 !important; color: white !important; font-weight: 800 !important; border: none !important; cursor: pointer !important; margin-top: 10px !important; }
 
-.m-text-main { font-size: 13px; line-height: 1.6; color: #e2e8f0; margin: 0; }
-.m-list { display: flex; flex-direction: column; gap: 10px; }
-.m-item { display: flex; gap: 12px; font-size: 12.5px; color: #cbd5e1; align-items: flex-start; }
-.m-item svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 3px; }
-
-.m-highlight-block { border: 1px solid rgba(99, 102, 241, 0.4); background: rgba(99, 102, 241, 0.08); }
-
-.m-btn-run { width: calc(100% - 48px) !important; padding: 18px !important; border-radius: 16px !important; background: #6d28d9 !important; color: white !important; font-weight: 800 !important; border: none !important; cursor: pointer !important; margin: 0 24px 24px !important; }
-
-.m-input { width: 100% !important; background: #000 !important; border: 1px solid var(--m-border) !important; border-radius: 12px !important; padding: 14px !important; color: white !important; margin-bottom: 15px !important; box-sizing: border-box !important; }
-textarea.m-input { min-height: 150px; resize: none; }
-
-#m-trigger { position: fixed; bottom: 30px; right: 30px; width: 64px; height: 64px; background: linear-gradient(135deg, #6366f1, #10b981); border-radius: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2147483646; }
+#m-trigger { position: fixed; bottom: 30px; right: 30px; width: 64px; height: 64px; background: linear-gradient(135deg, #6366f1, #10b981); border-radius: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2147483646; border: none; }
+#m-trigger svg { width: 30px; height: 30px; stroke: white; fill: none; }
