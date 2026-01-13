@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Meridian Icons</title>
+</head>
+<body>
+    <h2>Meridian AI Icons - Right click and save each one</h2>
+    
+    <!-- 16x16 Icon -->
+    <div>
+        <p>icon16.png (16x16)</p>
+        <canvas id="icon16" width="16" height="16"></canvas>
+    </div>
+    
+    <!-- 48x48 Icon -->
+    <div>
+        <p>icon48.png (48x48)</p>
+        <canvas id="icon48" width="48" height="48"></canvas>
+    </div>
+    
+    <!-- 128x128 Icon -->
+    <div>
+        <p>icon128.png (128x128)</p>
+        <canvas id="icon128" width="128" height="128"></canvas>
+    </div>
+
+    <script>
+        function drawIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#6366f1');
+            gradient.addColorStop(1, '#10b981');
+            
+            // Draw rounded rectangle background
+            const radius = size * 0.2;
+            ctx.beginPath();
+            ctx.moveTo(radius, 0);
+            ctx.lineTo(size - radius, 0);
+            ctx.quadraticCurveTo(size, 0, size, radius);
+            ctx.lineTo(size, size - radius);
+            ctx.quadraticCurveTo(size, size, size - radius, size);
+            ctx.lineTo(radius, size);
+            ctx.quadraticCurveTo(0, size, 0, size - radius);
+            ctx.lineTo(0, radius);
+            ctx.quadraticCurveTo(0, 0, radius, 0);
+            ctx.closePath();
+            
+            ctx.fillStyle = gradient;
+            ctx.fill();
+            
+            // Draw "M" letter in white
+            ctx.fillStyle = 'white';
+            ctx.font = `bold ${size * 0.5}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('M', size / 2, size / 2 + size * 0.05);
+        }
+        
+        // Generate all icons
+        drawIcon('icon16', 16);
+        drawIcon('icon48', 48);
+        drawIcon('icon128', 128);
+        
+        // Auto-download function
+        function downloadCanvas(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        }
+        
+        // Add download buttons
+        setTimeout(() => {
+            const note = document.createElement('p');
+            note.innerHTML = '<strong>Right-click on each icon and save as PNG, or use the buttons below:</strong>';
+            document.body.insertBefore(note, document.body.firstChild);
+            
+            const btn = document.createElement('button');
+            btn.textContent = 'Download All Icons';
+            btn.onclick = () => {
+                downloadCanvas('icon16', 'icon16.png');
+                setTimeout(() => downloadCanvas('icon48', 'icon48.png'), 500);
+                setTimeout(() => downloadCanvas('icon128', 'icon128.png'), 1000);
+            };
+            btn.style.cssText = 'padding: 10px 20px; font-size: 16px; margin: 20px 0;';
+            document.body.appendChild(btn);
+        }, 100);
+    </script>
+</body>
+</html>

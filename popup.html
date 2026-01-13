@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      width: 400px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0a0e1a;
+      color: #e2e8f0;
+    }
+    
+    .header {
+      padding: 20px;
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      border-radius: 0 0 16px 16px;
+    }
+    
+    .header h1 {
+      font-size: 18px;
+      font-weight: 800;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .header .subtitle {
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.9);
+      margin-top: 4px;
+    }
+    
+    .content {
+      padding: 20px;
+    }
+    
+    .section {
+      margin-bottom: 20px;
+    }
+    
+    .section-title {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #94a3b8;
+      margin-bottom: 8px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    input, textarea, select {
+      width: 100%;
+      background: #131825;
+      border: 1px solid rgba(148, 163, 184, 0.1);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: #e2e8f0;
+      font-size: 13px;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    input::placeholder, textarea::placeholder {
+      color: #475569;
+    }
+    
+    .button-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    button {
+      padding: 12px;
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 16px -4px rgba(59, 130, 246, 0.4);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    button.secondary {
+      background: #1e293b;
+      grid-column: span 2;
+    }
+    
+    button.secondary:hover {
+      background: #334155;
+      box-shadow: none;
+    }
+    
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(148, 163, 184, 0.1);
+    }
+    
+    .stat {
+      text-align: center;
+      background: #131825;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(148, 163, 184, 0.1);
+    }
+    
+    .stat-value {
+      font-size: 20px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .stat-label {
+      font-size: 9px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+    
+    .quick-settings {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      background: #131825;
+      border: 1px solid rgba(148, 163, 184, 0.1);
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+    
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #475569;
+      transition: .3s;
+      border-radius: 24px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+    
+    .icon {
+      width: 16px;
+      height: 16px;
+    }
+    
+    .success-message {
+      display: none;
+      padding: 10px;
+      background: #10b981;
+      color: white;
+      border-radius: 8px;
+      font-size: 12px;
+      text-align: center;
+      margin-top: 12px;
+    }
+    
+    .success-message.show {
+      display: block;
+      animation: fadeIn 0.3s;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      padding: 4px;
+      background: #131825;
+      border-radius: 10px;
+    }
+    
+    .tab {
+      flex: 1;
+      padding: 8px;
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    
+    .tab.active {
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      color: white;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="white"/>
+        <circle cx="9" cy="10" r="1.5" fill="white"/>
+        <circle cx="15" cy="10" r="1.5" fill="white"/>
+        <path d="M12 14c2.21 0 4 1.79 4 4h-8c0-2.21 1.79-4 4-4z" fill="white"/>
+      </svg>
+      Ghost SDR
+    </h1>
+    <div class="subtitle">AI-Powered Sales Intelligence</div>
+  </div>
+  
+  <div class="content">
+    <div class="tabs">
+      <button class="tab active" data-tab="config">⚙️ Configuración</button>
+      <button class="tab" data-tab="strategy">🎯 Estrategia</button>
+      <button class="tab" data-tab="stats">📊 Estadísticas</button>
+    </div>
+    
+    <!-- Configuration Tab -->
+    <div id="config" class="tab-content active">
+      <div class="section">
+        <div class="section-title">🔑 Gemini API Key</div>
+        <input type="password" id="apiKey" placeholder="sk-..." autocomplete="off">
+      </div>
+      
+      <div class="section">
+        <div class="section-title">🎚️ Configuración Rápida</div>
+        <div class="quick-settings">
+          <span style="flex: 1; font-size: 12px;">Auto-abrir en matches altos</span>
+          <label class="switch">
+            <input type="checkbox" id="autoOpen" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="quick-settings">
+          <span style="flex: 1; font-size: 12px;">Búsqueda web automática</span>
+          <label class="switch">
+            <input type="checkbox" id="webSearch" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+      
+      <div class="section">
+        <div class="section-title">🎚️ Umbral de Calificación: <span id="thresholdValue">75</span>%</div>
+        <input type="range" id="threshold" min="50" max="100" value="75" style="padding: 0;">
+      </div>
+    </div>
+    
+    <!-- Strategy Tab -->
+    <div id="strategy" class="tab-content">
+      <div class="section">
+        <div class="section-title">🏭 Industrias Target</div>
+        <input type="text" id="industries" placeholder="Logística, SaaS, Fintech, E-commerce...">
+      </div>
+      
+      <div class="section">
+        <div class="section-title">👔 Cargos Objetivo</div>
+        <textarea id="titles" placeholder="CEO, CTO, CDO, Founder, Director de Operaciones, VP Sales..."></textarea>
+      </div>
+      
+      <div class="section">
+        <div class="section-title">🎯 Pain Points Clave</div>
+        <textarea id="painpoints" placeholder="Costos de envío, tiempos de entrega, transformación digital, automatización..."></textarea>
+      </div>
+      
+      <div class="section">
+        <div class="section-title">📝 Prompt del BDR</div>
+        <textarea id="promptTemplate" placeholder="Define la estrategia de prospección y el tono del mensaje inicial..."></textarea>
+      </div>
+    </div>
+    
+    <!-- Stats Tab -->
+    <div id="stats" class="tab-content">
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value" id="analyzed">0</div>
+          <div class="stat-label">Analizados</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="qualified">0</div>
+          <div class="stat-label">Calificados</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value" id="conversion">0%</div>
+          <div class="stat-label">Conversión</div>
+        </div>
+      </div>
+      
+      <button class="secondary" id="resetStats" style="margin-top: 16px;">
+        🔄 Resetear Estadísticas
+      </button>
+    </div>
+    
+    <div class="button-group">
+      <button id="save">
+        💾 Guardar
+      </button>
+      <button id="test">
+        🧪 Test Config
+      </button>
+    </div>
+    
+    <div class="success-message" id="successMessage">
+      ✅ Configuración guardada exitosamente
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
