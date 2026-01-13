@@ -1,47 +1,38 @@
-// background.js - V15.0 MeridIAn Insight Engine
+// background.js - V16.2 MeridIAn Intelligence Engine
 const MODEL = "gemini-2.0-flash-exp";
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'analyze') {
-        runInsightInference(request.data).then(sendResponse);
+        runInsightLogic(request.data).then(sendResponse);
         return true; 
     }
 });
 
-async function runInsightInference(profile) {
+async function runInsightLogic(profile) {
     const { apiKey, icp } = await chrome.storage.sync.get(['apiKey', 'icp']);
     if (!apiKey) return { error: "No Key" };
 
     const systemPrompt = `
-    ROL: Ghost SDR MeridIAn. Experto en inteligencia de ventas y perfilamiento psicológico.
-    
-    ESTRATEGIA DEL BDR (PROMPT MAESTRO):
-    "${icp.promptTemplate}"
-
+    ROL: Analista de Inteligencia de Negocios MeridIAn.
+    ESTRATEGIA DEL BDR (PROMPT MAESTRO): "${icp.promptTemplate}"
     TARGET CARGOS: ${icp.titles.join(', ')}
 
-    VOLCADO DE TEXTO DEL PERFIL (TOTAL VISION):
-    "${profile.fullDump}"
+    VOLCADO DE TEXTO DEL PERFIL: "${profile.fullDump}"
 
-    TAREA DE EXTRACCIÓN DE INSIGHTS:
-    1. DETERMINAR SCORE: Calcula un Match Score (0-100) real comparando el volcado con el Prompt Maestro. No inventes el puntaje.
-    2. DOLORES (PAIN POINTS): Identifica 3 dolores probables basados en su cargo actual y los desafíos del sector que menciona o infiere.
-    3. CARACTERÍSTICAS: Define su perfil profesional (ej: "Líder técnico", "Orientado a resultados", "Estratega Digital").
-    4. ACTIVIDAD RECIENTE: Busca en el texto indicios de fechas o publicaciones (ej. "hace 2 días", "compartió un artículo"). Indica la RECENCIA y los TEMAS sobre los que escribe regularmente.
-    5. MENSAJE SNIPER: Redacta un mensaje que use la actividad reciente o un dolor detectado como gancho inicial.
+    TAREA: Analiza con profundidad para un BDR senior.
+    1. MATCH SCORE: Calcula de 0 a 100 basado estrictamente en el PROMPT MAESTRO.
+    2. DNA PROFESIONAL: Estilo de liderazgo y enfoque estratégico.
+    3. DOLORES ESTRATÉGICOS: 3 dolores críticos deducidos de su sector y cargo.
+    4. FOCO Y ACTIVIDAD: Frecuencia de interacción y temas de su contenido.
+    5. ÁNGULO DE ENTRADA: La mejor forma de iniciar la conversación.
 
     OUTPUT JSON ESTRICTO:
     { 
       "score": number, 
-      "insights": {
-        "painPoints": ["string"],
-        "characteristics": "string",
-        "activity": {
-          "recency": "string",
-          "topics": ["string"]
-        }
-      },
-      "suggestedMessage": "string" 
+      "dna": "string",
+      "pains": [{"icon": "alert|trending|target", "text": "string"}],
+      "activity": {"recency": "string", "context": "string"},
+      "opportunity": "string"
     }`;
 
     try {
